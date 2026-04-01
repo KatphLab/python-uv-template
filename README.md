@@ -8,8 +8,10 @@ A modern Python project template with best practices for development, featuring 
 - **UV Package Manager** - Fast, reliable Python package management
 - **Pydantic Settings** - Type-safe configuration from environment variables
 - **Pre-commit Hooks** - Automated code quality checks with Ruff
+- **MyPy Type Checking** - Strict static type checking with Pydantic plugin
 - **Configurable Logging** - Flexible logging with multiple formatters
 - **Environment Management** - Dotenv support for local development
+- **OpenCode Agent Support** - AI agent guidelines in AGENTS.md
 
 ## Quick Start
 
@@ -30,6 +32,7 @@ make install
 ```
 
 This will:
+
 - Install all dependencies with UV
 - Install pre-commit hooks
 - Update hooks to latest versions
@@ -56,10 +59,10 @@ cp .env.example .env
 
 Available settings:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `LOG_LEVEL` | `INFO` | Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL) |
-| `LOG_FORMATTER` | `standard` | Log format style (`standard` or `detailed`) |
+| Variable        | Default    | Description                                           |
+| --------------- | ---------- | ----------------------------------------------------- |
+| `LOG_LEVEL`     | `INFO`     | Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL) |
+| `LOG_FORMATTER` | `standard` | Log format style (`standard` or `detailed`)           |
 
 ### Logging
 
@@ -78,6 +81,7 @@ logger.info("Application started")
 ```
 
 **Formatter Options:**
+
 - `standard`: `2024-01-15 10:30:45 [INFO] app: Message`
 - `detailed`: `2024-01-15 10:30:45 [INFO] app:42 - Message` (includes line numbers)
 
@@ -88,14 +92,20 @@ logger.info("Application started")
 ├── config/
 │   ├── env.py              # Pydantic settings configuration
 │   └── logging_config.py   # Logging setup
+├── .opencode/              # OpenCode agent configuration
+│   ├── agents/             # Agent-specific documentation
+│   └── opencode.json       # OpenCode settings
 ├── .env.example            # Example environment variables
-├── .gitignore             # Git ignore patterns
+├── .gitignore              # Git ignore patterns
 ├── .pre-commit-config.yaml # Pre-commit hooks configuration
-├── .python-version        # Python version specification
-├── Makefile              # Common development tasks
-├── pyproject.toml        # Project metadata and dependencies
-├── README.md             # This file
-└── uv.lock               # Locked dependency versions
+├── .python-version         # Python version specification
+├── .vscode/                # VS Code settings
+├── AGENTS.md               # AI agent guidelines and best practices
+├── Makefile                # Common development tasks
+├── mypy.ini                # MyPy type checker configuration
+├── pyproject.toml          # Project metadata and dependencies
+├── README.md               # This file
+└── uv.lock                 # Locked dependency versions
 ```
 
 ## Development Tools
@@ -110,6 +120,7 @@ The following hooks run automatically on commit:
 - **Trailing Whitespace** - Removes trailing whitespace
 
 Manual run:
+
 ```bash
 pre-commit run --all-files
 ```
@@ -122,7 +133,43 @@ ruff format .
 
 # Check and auto-fix issues
 ruff check . --fix
+
+# Type check with mypy
+mypy .
 ```
+
+### Type Checking
+
+This project uses **MyPy** with strict settings for static type checking:
+
+```bash
+# Run type checker
+mypy .
+
+# Check specific file
+mypy config/env.py
+```
+
+Configuration is in `mypy.ini` with:
+
+- Strict mode enabled
+- Pydantic plugin for better model validation
+- Unused config warnings
+- Import following for dependencies
+
+### OpenCode Agents
+
+This repository includes OpenCode agent configuration:
+
+- **AGENTS.md** - Comprehensive guidelines for AI agents working on this codebase
+- **.opencode/** - OpenCode-specific configuration and agent documentation
+
+See `AGENTS.md` for:
+
+- Project structure and conventions
+- UV package management commands
+- Code style requirements (PEP 8, PEP 257)
+- Testing standards and coverage requirements
 
 ## Adding Dependencies
 
