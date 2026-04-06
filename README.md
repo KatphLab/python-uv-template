@@ -12,6 +12,9 @@ A modern Python project template with best practices for development, featuring 
 - **Configurable Logging** - Flexible logging with multiple formatters
 - **Environment Management** - Dotenv support for local development
 - **OpenCode Agent Support** - AI agent guidelines in AGENTS.md
+- **Pytest & pytest-cov** - Testing framework with coverage reporting
+- **SonarQube Integration** - Code quality and security analysis example
+- **Tox Configuration** - Automated testing and coverage collection
 
 ## Quick Start
 
@@ -20,22 +23,15 @@ A modern Python project template with best practices for development, featuring 
 - Python 3.12 or higher
 - [UV](https://docs.astral.sh/uv/) package manager
 
-### Installation
+### Makefile Commands
 
 ```bash
-# Clone the repository
-git clone <repository-url>
-cd python-template
-
-# Install dependencies and set up pre-commit hooks
+# Install dependencies and set up pre-commit
 make install
+
+# Run all quality assurance checks (ruff, mypy, pytest)
+make qa
 ```
-
-This will:
-
-- Install all dependencies with UV
-- Install pre-commit hooks
-- Update hooks to latest versions
 
 ### Development
 
@@ -89,6 +85,9 @@ logger.info("Application started")
 
 ```
 .
+├── .github/
+│   └── workflows/
+│       └── sonarqube.yml.example  # SonarQube CI workflow example
 ├── config/
 │   ├── env.py              # Pydantic settings configuration
 │   └── logging_config.py   # Logging setup
@@ -105,6 +104,8 @@ logger.info("Application started")
 ├── mypy.ini                # MyPy type checker configuration
 ├── pyproject.toml          # Project metadata and dependencies
 ├── README.md               # This file
+├── sonar-project.properties # SonarQube configuration
+├── tox.ini                 # Tox test automation configuration
 └── uv.lock                 # Locked dependency versions
 ```
 
@@ -137,6 +138,64 @@ ruff check . --fix
 # Type check with mypy
 mypy .
 ```
+
+### Makefile Commands
+
+```bash
+# Install dependencies and set up pre-commit
+make install
+
+# Run all quality assurance checks (ruff, mypy, pytest)
+make qa
+```
+
+### Testing
+
+This project uses **pytest** with **pytest-cov** for testing and coverage:
+
+```bash
+# Run tests
+pytest
+
+# Run tests with coverage
+pytest --cov
+
+# Generate coverage XML report for SonarQube
+pytest --cov --cov-report xml
+```
+
+Tests are configured in `pyproject.toml`:
+
+- Test discovery in `tests/` directory
+- Test files matching `test_*.py` or `*_test.py`
+- Coverage reporting to `coverage.xml`
+
+### SonarQube Integration
+
+This template includes SonarQube configuration for code quality and security analysis:
+
+1. Copy the workflow example to enable:
+
+   ```bash
+   mkdir -p .github/workflows
+   cp .github/workflows/sonarqube.yml.example .github/workflows/sonarqube.yml
+   ```
+
+2. Set up SonarQube Cloud or Server:
+   - Create a project and get your token
+   - Add repository secrets: `SONAR_TOKEN` and `SONAR_HOST_URL` (for Server)
+
+3. Update `sonar-project.properties`:
+
+   ```properties
+   sonar.projectKey=your_project_key
+   sonar.python.version=3.12
+   sonar.python.coverage.reportPaths=coverage.xml
+   sonar.tests=tests
+   sonar.sources=src
+   ```
+
+4. For GitHub Actions integration, tox is used to run tests and generate coverage reports.
 
 ### Type Checking
 
@@ -180,8 +239,14 @@ uv add package-name
 # Add development dependency
 uv add --dev package-name
 
+# Add to test group
+uv add --group test package-name
+
 # Sync dependencies
 uv sync
+
+# Sync with all groups
+uv sync --all-groups
 ```
 
 ## Customization
