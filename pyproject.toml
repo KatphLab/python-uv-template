@@ -24,8 +24,3 @@ pythonpath = ["src"]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
 
-[tool.ruff]
-src = ["src", "tests"]
-
-[tool.ruff.lint]
-extend-select = ["I"]

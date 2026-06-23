@@ -1,0 +1,21 @@
+# Minimal Ruff configuration for this Python template.
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[lint]
+select = [
+  "E4", # pycodestyle import errors
+  "E7", # pycodestyle statement errors
+  "E9", # pycodestyle runtime errors
+  "F",  # Pyflakes
+  "I",  # import sorting
+  "B",  # common bug-prone patterns
+]
+fixable = ["ALL"]
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true
