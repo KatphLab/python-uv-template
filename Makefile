@@ -4,6 +4,4 @@ install:
 	uv run pre-commit autoupdate
 
 qa:
-	uv run ruff check --fix .
-	uv run mypy .
-	uv run pytest
+	just lint .

@@ -1,0 +1,35 @@
+rules:
+  - id: pydantic-extra-allow
+    message: "Pydantic extra='allow' is forbidden"
+    severity: ERROR
+    languages: [python]
+    patterns:
+      - pattern-either:
+          - pattern: ConfigDict(..., extra="allow", ...)
+          - pattern: |
+              class Config:
+                  ...
+                  extra = "allow"
+                  ...
+  - id: no-noqa-comments
+    message: "Do not use '# noqa'. Fix the issue instead of suppressing it."
+    severity: ERROR
+    languages: [python]
+    patterns:
+      - pattern-regex: '#\s*noqa\b'
+  - id: no-type-ignore-comments
+    message: "Do not use '# type: ignore'. Fix the issue instead of suppressing it."
+    severity: ERROR
+    languages: [python]
+    patterns:
+      - pattern-regex: '#\s*type:\s*ignore\b'
+
+  - id: no-private-imports
+    message: "Do not import private names from other modules. Use a public API instead."
+    severity: ERROR
+    languages: [python]
+    patterns:
+      - pattern: from $MODULE import $PRIVATE
+      - metavariable-regex:
+          metavariable: $PRIVATE
+          regex: '^_\w*$'

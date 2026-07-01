@@ -1,14 +1,12 @@
 import logging.config
-from typing import Any, Dict
+from typing import Any
 
-LOGGING_CONFIG: Dict[str, Any] = {
+LOGGING_CONFIG: dict[str, Any] = {
     "version": 1,
     "disable_existing_loggers": False,
     "formatters": {
         "standard": {"format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s"},
-        "detailed": {
-            "format": "%(asctime)s [%(levelname)s] %(name)s:%(lineno)d - %(message)s"
-        },
+        "detailed": {"format": "%(asctime)s [%(levelname)s] %(name)s:%(lineno)d - %(message)s"},
     },
     "handlers": {
         "console": {

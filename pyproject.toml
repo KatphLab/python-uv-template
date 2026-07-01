@@ -13,6 +13,7 @@ dev = [
     "mypy>=1.20.0",
     "pre-commit>=4.5.1",
     "ruff>=0.15.8",
+    "semgrep>=1.168.0",
 ]
 test = [
     "pytest>=9.0.2",
@@ -23,4 +24,3 @@ test = [
 pythonpath = ["src"]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
-
