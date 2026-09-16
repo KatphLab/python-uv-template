@@ -23,7 +23,15 @@ rules:
     languages: [python]
     patterns:
       - pattern-regex: '#\s*type:\s*ignore\b'
-
+  - id: no-dynamic-module-imports
+    message: "Do not use importlib.import_module. Use static imports, including function-local imports for lazy loading."
+    severity: ERROR
+    languages: [python]
+    patterns:
+      - pattern-either:
+          - pattern: importlib.import_module(...)
+          - pattern: from importlib import import_module
+          - pattern: from importlib import import_module as $ALIAS
   - id: no-private-imports
     message: "Do not import private names from other modules. Use a public API instead."
     severity: ERROR
@@ -33,3 +41,44 @@ rules:
       - metavariable-regex:
           metavariable: $PRIVATE
           regex: '^_\w*$'
+  - id: engines-imported-outside-engines
+    message: "Files outside Engines/ must not import from Engines."
+    severity: ERROR
+    languages: [python]
+    paths:
+      exclude:
+        - Engines/**
+        - tests/**
+    patterns:
+      - pattern-either:
+          - pattern: import $MODULE
+          - pattern: from $MODULE import $NAME
+      - metavariable-regex:
+          metavariable: $MODULE
+          regex: '^Engines(?:\.|$)'
+  - id: utils-imports-only-utils
+    message: "utils/ must not import from other application modules."
+    severity: ERROR
+    languages: [python]
+    paths:
+      include:
+        - utils/**
+      exclude:
+        - Engines/**
+    patterns:
+      - pattern-either:
+          - pattern: import $MODULE
+          - pattern: from $MODULE import $NAME
+      - metavariable-regex:
+          metavariable: $MODULE
+          regex: '^(?:Engines|LiveData|Routes|Services|backtest_websocket|broker|db_routing|message_routing|migrations|tests|main|run_engine)(?:\.|$)'
+  # - id: no-any-object-types
+  #   message: 'Do not use Any or object as type annotations, including list/dict subtypes. Use precise domain types instead.'
+  #   severity: ERROR
+  #   languages: [python]
+  #   patterns:
+  #     - pattern-either:
+  #         - pattern-regex: '^\s*[A-Za-z_]\w*\s*:\s*[^#\n]*\b(?:Any|object)\b'
+  #         - pattern-regex: '^\s*(?:async\s+)?def\s+\w+\([^#\n]*\b(?:Any|object)\b[^#\n]*\)'
+  #         - pattern-regex: '^\s*(?:async\s+)?def\s+\w+\([^#\n]*\)\s*->\s*[^:#\n]*\b(?:Any|object)\b'
+  #         - pattern-regex: '^\s*\)\s*->\s*[^:#\n]*\b(?:Any|object)\b'

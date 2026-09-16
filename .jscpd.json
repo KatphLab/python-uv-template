@@ -1,9 +1,7 @@
 {
-  "threshold": 1,
+  "threshold": 0.1,
   "noTips": true,
-  "reporters": [
-    "ai"
-  ],
+  "reporters": ["ai"],
   "ignore": [
     "**/dist/**",
     "**/build/**",
