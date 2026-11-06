@@ -1,0 +1,19 @@
+version: 2
+updates:
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: weekly
+    # Keep version updates patch-only for production, development, and transitive dependencies.
+    allow:
+      - dependency-type: all
+        update-types:
+          - version-update:semver-patch
+
+  - package-ecosystem: pre-commit
+    directory: /
+    schedule:
+      interval: weekly
+    # Allow major, minor, and patch updates to hook revisions and additional dependencies.
+    allow:
+      - dependency-type: all
