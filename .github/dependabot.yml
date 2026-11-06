@@ -14,8 +14,6 @@ updates:
     directory: /
     schedule:
       interval: weekly
-    # Apply the same patch-only policy to hook revisions and additional dependencies.
+    # Allow major, minor, and patch updates to hook revisions and additional dependencies.
     allow:
       - dependency-type: all
-        update-types:
-          - version-update:semver-patch
